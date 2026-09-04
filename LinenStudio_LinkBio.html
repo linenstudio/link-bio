@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linen Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ivory:   #FBF9F6;
+    --bg:      #FBF7F1;
+    --walnut:  #8C6F60; /* más claro */
+    --sand:    #E9E1D5; /* más claro */
+    --tan:     #D8BFA6; /* más claro */
+    --clay:    #D6B99F; /* más claro */
+    --stone:   #CDC0B3; /* más claro */
+    --light:   #F6F2EE;
+    --white:   #FFFFFF;
+    --dark:    #6B4F3F; /* menos intenso */
+  }
+
+  html, body {
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--dark);
+    /* Avenir con fallbacks web-safe */
+    font-family: 'Avenir Next', 'Avenir', 'Nunito Sans', 'Gill Sans', -apple-system, sans-serif;
+    font-size: 16px; /* un poco más grande */
+    font-weight: 500; /* Avenir Medium por defecto */
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 44px 20px 64px;
+  }
+
+  /* ── LOGO ── */
+  .logo {
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  .logo-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--dark);
+  }
+
+  .logo-tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--stone);
+    margin-top: 5px;
+  }
+
+  .rule {
+    width: 36px;
+    height: 1px;
+    background: var(--sand);
+    margin: 22px auto;
+  }
+
+  /* ── CONTAINER ── */
+  .container {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* ── SECTION LABEL ── */
+  .lbl {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--stone);
+    font-weight: 600; /* Avenir Semibold */
+    text-align: center;
+    margin: 18px 0 6px;
+  }
+
+  /* ── PACKS ── */
+  .pack {
+    background: var(--white);
+    border: 0.5px solid var(--sand);
+    border-radius: 6px;
+    padding: 22px 22px 20px 26px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pack::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--tan);
+  }
+
+  .pack-num {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--clay);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .pack-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; /* un poco más grande */
+    font-weight: 400;
+    color: var(--dark);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .pack-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .pack-items li {
+    font-size: 15px; /* más grande */
+    color: var(--walnut);
+    font-weight: 500; /* Avenir Medium */
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+  }
+
+  .pack-items li::before {
+    content: '—';
+    color: var(--tan);
+    flex-shrink: 0;
+    font-size: 12px;
+    margin-top: 1px;
+  }
+
+  .pack.featured {
+    background: var(--light);
+    border-color: var(--tan);
+  }
+
+  .pack.featured::before { background: var(--clay); }
+  .pack.featured .pack-num { color: var(--clay); }
+  .pack.featured .pack-name { color: var(--dark); }
+
+  /* ── EXTRAS ── */
+  .extras {
+    background: var(--ivory);
+    border-radius: 6px;
+    padding: 16px 20px;
+    border: 0.5px solid var(--sand);
+  }
+
+  .extras-title {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .extras ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+
+  .extras ul li {
+    font-size: 14px;
+    color: var(--walnut);
+    font-weight: 500;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .extras ul li::before {
+    content: '—';
+    color: var(--tan);
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 16px 18px;
+    border-radius: 6px;
+    font-family: 'Avenir Next', 'Avenir', 'Nunito Sans', sans-serif;
+    font-weight: 600; /* Avenir Semibold para botones */
+    font-size: 15px; /* un poco más grande */
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.18s, transform 0.14s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); opacity: 1; }
+
+  .btn-primary {
+    background: var(--walnut);
+    color: var(--ivory);
+  }
+
+  .btn-secondary {
+    background: var(--white);
+    color: var(--dark);
+    border: 0.5px solid var(--sand);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--walnut);
+    border: 0.5px solid var(--tan);
+  }
+
+  .btn svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+    opacity: 0.95;
+  }
+
+  /* ── PROCESO ── */
+  .process { display: flex; flex-direction: column; background: var(--white); border-radius: 6px; border: 0.5px solid var(--sand); overflow: hidden; }
+
+  .step {
+    display: flex;
+    gap: 14px;
+    padding: 14px 18px;
+    border-bottom: 0.5px solid var(--light);
+    align-items: flex-start;
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-n {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--clay);
+    font-weight: 400;
+    letter-spacing: 1px;
+    min-width: 24px;
+    padding-top: 1px;
+    flex-shrink: 0;
+  }
+
+  .step-title {
+    font-size: 15px; /* más grande */
+    font-weight: 600; /* Avenir Semibold */
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+
+  .step-desc {
+    font-size: 13.5px;
+    color: var(--stone);
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  /* ── CALENDAR ── */
+  .cal-box {
+    background: var(--white);
+    border: 0.5px solid var(--sand);
+    border-radius: 6px;
+    padding: 26px 22px;
+    text-align: center;
+  }
+
+  .cal-box svg {
+    width: 34px;
+    height: 34px;
+    margin: 0 auto 12px;
+    display: block;
+    opacity: 0.5;
+  }
+
+  .cal-box p {
+    font-size: 14px;
+    color: var(--stone);
+    line-height: 1.65;
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+
+  /* ── ARCHIVE ── */
+  .archive {
+    background: var(--light);
+    border: 0.5px solid var(--sand);
+    border-radius: 6px;
+    padding: 24px 22px;
+    text-align: center;
+  }
+
+  .archive-lbl {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .archive-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--dark);
+    font-weight: 300;
+    font-style: italic;
+    margin-bottom: 10px;
+    line-height: 1.45;
+  }
+
+  .archive-desc {
+    font-size: 13.5px;
+    color: var(--walnut);
+    line-height: 1.7;
+    font-weight: 500;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    margin-top: 36px;
+    text-align: center;
+    border-top: 0.5px solid var(--sand);
+    padding-top: 24px;
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--walnut);
+    margin-bottom: 6px;
+  }
+
+  .footer-tag {
+    font-size: 12px;
+    color: var(--stone);
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGO -->
+<div class="logo">
+  <div class="logo-name">Linen Studio</div>
+  <div class="logo-tag">Dirección creativa para matrimonios</div>
+</div>
+
+<div class="rule"></div>
+
+<div class="container">
+
+  <!-- ① PACKS PRIMERO -->
+  <div class="lbl">Servicios</div>
+
+  <div class="pack">
+    <div class="pack-num">Pack 01</div>
+    <div class="pack-name">Identidad Visual</div>
+    <ul class="pack-items">
+      <li>Concepto creativo del matrimonio</li>
+      <li>Paleta de color con justificación</li>
+      <li>Selección tipográfica</li>
+      <li>Moodboard curado</li>
+      <li>Brief creativo para tus proveedores</li>
+    </ul>
+  </div>
+
+  <div class="pack featured">
+    <div class="pack-num">Pack 02 — El más completo</div>
+    <div class="pack-name">Identidad + Papelería</div>
+    <ul class="pack-items">
+      <li>Todo el Pack 01</li>
+      <li>Invitación principal</li>
+      <li>Programa de ceremonia</li>
+      <li>Menú · Encuentra tu mesa</li>
+      <li>Señalética · Números de mesa</li>
+    </ul>
+  </div>
+
+  <div class="extras">
+    <div class="extras-title">Servicios adicionales</div>
+    <ul>
+      <li>Coordinación de impresión</li>
+      <li>Piezas especiales — bar, QR fotos, dinámica, photobooth</li>
+    </ul>
+  </div>
+
+  <!-- ② CONVERSAMOS -->
+  <div class="lbl">¿Conversamos?</div>
+
+  <a href="https://wa.me/56912345678?text=Hola!%20Vi%20tu%20perfil%20de%20Instagram%20y%20me%20gustar%C3%ADa%20saber%20m%C3%A1s%20sobre%20Linen%20Studio%20%F0%9F%A4%8D" target="_blank" class="btn btn-primary">
+    <svg fill="currentColor" viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.848L.057 23.882a.75.75 0 00.92.92l6.034-1.475A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22.5a10.45 10.45 0 01-5.35-1.464l-.384-.23-3.981.973.99-3.894-.252-.4A10.5 10.5 0 1112 22.5z"/>
+    </svg>
+    Escribir por WhatsApp
+  </a>
+
+  <a href="https://instagram.com/linenstudio" target="_blank" class="btn btn-secondary">
+    <svg fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+    </svg>
+    Ver el trabajo en Instagram
+  </a>
+
+  <!-- ③ CÓMO TRABAJAMOS -->
+  <div class="lbl">Cómo trabajamos</div>
+
+  <div class="process">
+    <div class="step">
+      <div class="step-n">01</div>
+      <div>
+        <div class="step-title">Reunión online</div>
+        <div class="step-desc">90 minutos para conocernos y construir el moodboard en vivo juntas.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">02</div>
+      <div>
+        <div class="step-title">Defines tu pack</div>
+        <div class="step-desc">Te enviamos el concepto y los packs disponibles. Tú decides con calma.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">03</div>
+      <div>
+        <div class="step-title">Diseñamos juntas</div>
+        <div class="step-desc">Cada pieza dentro del mismo universo visual. Vas viendo el avance y dando feedback.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">04</div>
+      <div>
+        <div class="step-title">Revisión presencial</div>
+        <div class="step-desc">Nos juntamos en Santiago para revisar muestras físicas antes de imprimir.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">05</div>
+      <div>
+        <div class="step-title">La Caja Linen</div>
+        <div class="step-desc">Recibes todas las piezas impresas con instructivo y archivos digitales.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">06</div>
+      <div>
+        <div class="step-title">The Wedding Archive</div>
+        <div class="step-desc">Semanas después llega el archivo editorial con la identidad visual de tu día.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ VER DISPONIBILIDAD -->
+  <div class="cal-box">
+    <svg fill="none" stroke="#B0A090" stroke-width="1.3" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/>
+    </svg>
+    <p>La primera reunión es online, dura 90 minutos y es sin compromiso.<br>Elige el horario que más te acomode.</p>
+    <!-- Reemplaza TU-USUARIO con tu usuario real de Calendly -->
+    <a href="https://calendly.com/TU-USUARIO/primera-reunion" target="_blank" class="btn btn-outline" style="max-width:260px; margin:0 auto; font-size:13px; padding:14px 16px;">
+      Ver disponibilidad →
+    </a>
+  </div>
+
+  <!-- ARCHIVE -->
+  <div class="archive">
+    <div class="archive-lbl">The Wedding Archive</div>
+    <div class="archive-title">El proceso comienza con una idea y termina convertido en memoria.</div>
+    <div class="archive-desc">La firma de Linen Studio — una composición editorial con la identidad visual de tu matrimonio. Diseñada para conservarse, no para guardarse en un cajón.</div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">Linen Studio</div>
+  <div class="footer-tag">Más que papelería. Una identidad.</div>
+</footer>
+
+</body>
+</html>
